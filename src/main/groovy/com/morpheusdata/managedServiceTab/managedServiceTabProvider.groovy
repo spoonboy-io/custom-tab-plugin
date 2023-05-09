@@ -31,7 +31,7 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 		ViewModel<Instance> model = new ViewModel<>()
 		TaskConfig config = morpheus.buildInstanceConfig(instance, [:], null, [], [:]).blockingGet()
 		model.object = instance
-		getRenderer().renderTemplate("hbs/managedService", model)
+		getRenderer().renderTemplate("hbs/managedServices", model)
 	}
 
 	@Override
