@@ -44,12 +44,12 @@ Upload the plugin to Morpheus (admin > integrations > plugins tab)
 Log out/in to Morpheus to see the tab on existing instances.
 
 ### Create a release
-Note this is work-in-progess.
-Releases can be automatically created in Github by pushing a version tags
+
+!Note this is work-in-progess!
+Releases can be automatically created on Github by pushing a version tag
 in the format `vx.x.x`.
 
 To this end there is a `Makefile` with a `release` command to assist with this.
-
 
 ### Versions
 
