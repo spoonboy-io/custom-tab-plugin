@@ -57,3 +57,8 @@ To this end there is a `Makefile` with a `release` command to assist with this.
 The plugin has been configured and tested with Morpheus v.6.1.0
 
 Plugin builds are tested/performed with Java v16
+
+### Todo/Ideas
+
+* Mechanism to delete a service
+* Provisioning Workflow to attach services to an instance

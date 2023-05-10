@@ -31,6 +31,8 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 	ManagedServiceTabProvider(Plugin plugin, MorpheusContext context) {
 		this.plugin = plugin
 		this.morpheus = context
+
+		log.info("firing")
 	}
 
 	@Override
@@ -38,7 +40,7 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 		ViewModel<Instance> model = new ViewModel<>()
 		TaskConfig config = morpheus.buildInstanceConfig(instance, [:], null, [], [:]).blockingGet()
 
-        // gather the data
+        // get the data
         Connection dbConnection
         Account account = new Account()
         List<GroovyRowResult> results = []
@@ -106,7 +108,6 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 		// store info to properties for use with view
 		this.accountInfo = account
 
-		log.info("user has permissions: ${user.permissions}")
 		plugin.permissions.each { Permission permission ->
 		    if(user.permissions[permission.code] != permission.availableAccessTypes.last().toString()){
 		 		 show = false
