@@ -64,8 +64,6 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 
 		try {
         	dbConnection = morpheus.report.getReadOnlyDatabaseConnection().blockingGet()
-        	// Q. Is injection handled for us with interpolation?
-        	// A. Yes, if formatted correctly. Groovy will warn in logs if there is bad style
         	results = new Sql(dbConnection).rows("SELECT * FROM custom_managed_services where instance_name = ${instance.name};")
         } finally {
         	morpheus.report.releaseDatabaseConnection(dbConnection)
@@ -79,7 +77,6 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
         } else {
             // iterate the dataset and do the calcs
             for(result in results) {
-                //log.info(result.service_name)
                 serviceCount += 1
                 total += result.service_cost
                 if (result.service_cost > max) {
@@ -100,26 +97,6 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
             model.object = viewData
         	getRenderer().renderTemplate("hbs/managedServices", model)
         }
-
-
-
-
-        //println(instance.name)
-        //println(results)
-
-        //log.info("Results: ${results}")
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 
 	@Override
@@ -129,15 +106,13 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 		// store info to properties for use with view
 		this.accountInfo = account
 
-		//println "user has permissions: ${user.permissions}"
-		  /*plugin.permissions.each { Permission permission ->
-		 	  if(user.permissions[permission.code] != permission.availableAccessTypes.last().toString()){
-		 		  show = false
-		 	  }
-		  }*/
-		/*catch(Exception ex) {
-           log.info("Template Plugin:  ${ex}")
-        }*/
+		log.info("user has permissions: ${user.permissions}")
+		plugin.permissions.each { Permission permission ->
+		    if(user.permissions[permission.code] != permission.availableAccessTypes.last().toString()){
+		 		 show = false
+		 	}
+		}
+
 		return show
 	}
 
