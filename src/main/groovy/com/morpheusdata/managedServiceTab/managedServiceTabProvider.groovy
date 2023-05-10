@@ -22,8 +22,10 @@ import groovy.util.logging.Slf4j
 class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 	Plugin plugin
 	MorpheusContext morpheus
+	Account accountInfo
+	User userInfo
 
-	String code = "managed-services-tab"
+    String code = "managed-services-tab"
 	String name = "Managed Services"
 
 	ManagedServiceTabProvider(Plugin plugin, MorpheusContext context) {
@@ -38,6 +40,7 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 
         // gather the data
         Connection dbConnection
+        Account account = new Account()
         List<GroovyRowResult> results = []
         Integer serviceCount = 0
         Float total = 0.00
@@ -45,7 +48,19 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
         Float max = 0.00
 
         def viewData = [:]
-        viewData['currencySymbol'] = '$'
+
+        // add the tenant currency symbol
+        switch (accountInfo.getCurrency()){
+            case "EUR":
+                viewData['currencySymbol'] = '€'
+            break;
+            case "GBP":
+                viewData['currencySymbol'] = '£'
+            break;
+            default:
+                viewData['currencySymbol'] = '$'
+            break;
+        }
 
 		try {
         	dbConnection = morpheus.report.getReadOnlyDatabaseConnection().blockingGet()
@@ -110,6 +125,10 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 	@Override
 	Boolean show(Instance instance, User user, Account account) {
 		def show = true
+
+		// store info to properties for use with view
+		this.accountInfo = account
+
 		//println "user has permissions: ${user.permissions}"
 		  /*plugin.permissions.each { Permission permission ->
 		 	  if(user.permissions[permission.code] != permission.availableAccessTypes.last().toString()){
