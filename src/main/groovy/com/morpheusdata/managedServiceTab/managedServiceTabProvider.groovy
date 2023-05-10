@@ -11,6 +11,11 @@ import com.morpheusdata.model.User
 import com.morpheusdata.model.Permission
 import com.morpheusdata.views.HTMLResponse
 import com.morpheusdata.views.ViewModel
+import java.text.DecimalFormat
+import groovy.sql.GroovyRowResult
+import groovy.transform.ToString
+import groovy.sql.Sql
+import java.sql.Connection
 import groovy.util.logging.Slf4j
 
 @Slf4j
@@ -30,8 +35,76 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 	HTMLResponse renderTemplate(Instance instance) {
 		ViewModel<Instance> model = new ViewModel<>()
 		TaskConfig config = morpheus.buildInstanceConfig(instance, [:], null, [], [:]).blockingGet()
-		model.object = instance
-		getRenderer().renderTemplate("hbs/managedServices", model)
+
+        // gather the data
+        Connection dbConnection
+        List<GroovyRowResult> results = []
+        Integer serviceCount = 0
+        Float total = 0.00
+        Float avg = 0.00
+        Float max = 0.00
+
+        def viewData = [:]
+        viewData['currencySymbol'] = '$'
+
+		try {
+        	dbConnection = morpheus.report.getReadOnlyDatabaseConnection().blockingGet()
+        	// Q. Is injection handled for us with interpolation?
+        	// A. Yes, if formatted correctly. Groovy will warn in logs if there is bad style
+        	results = new Sql(dbConnection).rows("SELECT * FROM custom_managed_services where instance_name = ${instance.name};")
+        } finally {
+        	morpheus.report.releaseDatabaseConnection(dbConnection)
+        }
+
+        // handle results (or lack of)
+        if (results.size == 0) {
+            // handle empty dataset
+            model.object = viewData
+            getRenderer().renderTemplate("hbs/noManagedServices", model)
+        } else {
+            // iterate the dataset and do the calcs
+            for(result in results) {
+                //log.info(result.service_name)
+                serviceCount += 1
+                total += result.service_cost
+                if (result.service_cost > max) {
+                    max = result.service_cost
+                }
+            }
+            avg = total / serviceCount
+
+            // collect view data & format appropriately
+            def df2 = new DecimalFormat("#0.00") // round(2) was inconsistent
+            viewData['results'] = results
+            viewData['instance'] = instance
+            viewData['total'] = df2.format(total)
+            viewData['count'] = serviceCount
+            viewData['max'] = df2.format(max)
+            viewData['avg'] = df2.format(avg)
+
+            model.object = viewData
+        	getRenderer().renderTemplate("hbs/managedServices", model)
+        }
+
+
+
+
+        //println(instance.name)
+        //println(results)
+
+        //log.info("Results: ${results}")
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 
 	@Override
