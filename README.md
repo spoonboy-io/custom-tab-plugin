@@ -1,8 +1,8 @@
 ## Custom Tab Plugin
 
-This is a prototype Morpheus plugin which demonstrates how to uses
+This is a prototype Morpheus plugin which demonstrates how to use
 the Morpheus Plugin framework's custom tab provider to query and 
-display data from a custom table in Morpheus.
+display data from a custom table in Morpheus. 
 
 In a fictional scenario, Company XYZ wishes to show a list of installed
 services associated with each Instance. Data is created and inserted via a 
@@ -10,6 +10,18 @@ workflow (not provided) but can be viewed (and deleted) from an
 Instance's custom tab.
 
 <img width="1240" alt="image" src="https://github.com/spoonboy-io/custom-tab-plugin/assets/7113347/c31e07b1-2149-45e2-84e2-5d228ebd73dc">
+
+### For learning
+
+This code demonstrates techniques, which are not guaranteed to be the best approaches, but which achieve the following:
+
+* Create a custom tab using the tab provider
+* Render data from a custom table
+* Replicate Morpheus UI HTML controls & style on the tab
+* Implement a controller to handle delete requests, controller has code to parse the querystring since only GET is supported
+* Make writes to the database (better a different database) via a new connection
+* Implements JavaScript code in the view to send data to the controller
+* Is secure AFAIK. Uses role permissions, and also checks nonce for replay
 
 ### Getting started
 
@@ -62,3 +74,4 @@ Plugin builds are tested/performed with Java v16
 
 ### Todo/Ideas
 * Provisioning Workflow to attach services to an instance
+* The config for the additional database connection needs to go in the plugin settings
