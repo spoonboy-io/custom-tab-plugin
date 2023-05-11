@@ -73,5 +73,6 @@ The plugin has been configured and tested with Morpheus v.6.1.0
 Plugin builds are tested/performed with Java v16
 
 ### Todo/Ideas
-* Provisioning Workflow to attach services to an instance
+* Provisioning Workflow to attach services to an Instance
 * The config for the additional database connection needs to go in the plugin settings
+* Amend controller response so as to include new metrics to update the stats after deleting (count, total cost, avg cost, max cost), and update the DOM in JS
