@@ -15,11 +15,11 @@ Instance's custom tab.
 
 This code demonstrates techniques, which are not guaranteed to be the best approaches, but which achieve the following:
 
-* Create a custom tab using the tab provider
-* Render data from a custom table
+* Create a custom instance tab using the tab provider
+* Render data from a custom table in the tab
 * Replicate Morpheus UI HTML controls & style on the tab
 * Implement a controller to handle delete requests, controller has code to parse the querystring since only GET is supported
-* Make writes to the database (better a different database) via a new connection
+* Make writes to the database (better a different database) via a new connection (plugin-core offers read only)
 * Implements JavaScript code in the view to send data to the controller
 * Is secure AFAIK. Uses role permissions, and also checks nonce for replay
 
