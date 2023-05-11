@@ -17,12 +17,12 @@ Follow these steps to load the data to your Morpheus appliance database.
 Create database table Morpheus.
 
 ```
-mysql -h hostname -u morpheus morpheus < /path/to/migrations/create_managed_service_table.sql
+mysql -h hostname -u morpheus morpheus < /path/to/migrations/create_managed_service_plugin_table.sql
 ```
 Seed the database table with dummy data.
 
 ```
-mysql -h hostname -u morpheus morpheus < path/to/migrations/seed_managed_service_table.sql
+mysql -h hostname -u morpheus morpheus < path/to/migrations/seed_managed_service_plugin_table.sql
 ```
 
 **NOTE**: Dummy data is available for an instance with name `DummyTechService-01`. 
