@@ -1,3 +1,29 @@
+<script nonce="{{nonce}}">
+
+    function confirmDelete(event) {
+        event.preventDefault();
+        let del = confirm("Please confirm you wish to delete these managed services from this instance!");
+        if (del) {
+            deleteConfirmed();
+        }
+    }
+
+    function deleteConfirmed(){
+        // gather the selected ids
+        // get current page for redirection
+        // session the nonce
+        // make request body (include ids, nonce, and redirect page
+        // use fetch api to custom end point
+        alert("I haz deleted!!");
+    }
+
+    // wait for load
+    document.addEventListener("DOMContentLoaded", function(event){
+        const btn = document.getElementById("delete-button");
+        btn.addEventListener("click", confirmDelete);
+    });
+</script>
+
 <style>
     .custom-heading {
         font-weight:bold!important;
@@ -12,6 +38,8 @@
     .custom-border-bottom {
         border-bottom: 1px solid #999999;
     }
+
+    th, td {line-height:32px!important;padding-top:5px;}
 </style>
 
 <div class="tab-content">
@@ -62,23 +90,52 @@
         <div class="custom-detail-margin">
             <h2>Service Detail</h2>
             <p>The following managed services are installed on this Instance.</p>
+
+            <!-- start actions -->
+            <div class="btn-group pull-right">
+                <button type="button" disabled="" class="instance-actions-button min-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a id="delete-button">Delete Services</a></li>
+                </ul>
+            </div>
+            <!-- end actions -->
+
             <table class="table table-striped custom-border-bottom">
                 <thead>
                 <tr>
-                    <th class="custom-heading" style="width:10%">ID</th><th class="custom-heading" style="width:80%">NAME/DESCRIPTION</th><th class="custom-heading" style="width:10%;text-align:right;">COST</th>
+                    <th style="width:5%">
+                        <div class="checkbox-container">
+                            <label>
+                                <input type="hidden" name="_instanceSelectAll"><input type="checkbox" name="instanceSelectAll" class="instance-select-all" tabindex="4" id="instanceSelectAll"> <span class="custom"></span>
+                            </label>
+                            <label class="visible-sm">Select All</label>
+                        </div>
+                    </th>
+                    <th class="custom-heading" style="width:10%">ID</th><th class="custom-heading" style="width:75%">NAME/DESCRIPTION</th><th class="custom-heading" style="width:10%;text-align:right;">COST</th>
                 </tr>
                 </thead>
                 <tbody>
                 <!-- how to include the currency symbol within the each -->
                 {{#each results}}
                     <tr>
+                        <td>
+                            <div class="select-block">
+                                <div class="checkbox-container">
+                                    <label>
+                                        <input type="hidden" name="_instanceMultiselect"><input type="checkbox" name="instanceMultiselect" class="instance-multiselect" data-id="3" data-status="running" data-hasservices="" tabindex="4" data-owners="1" id="instanceMultiselect"> <span class="custom"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
                         <td>{{this.id}}</td><td>{{this.service_name}}</td><td style="text-align:right;">{{../currencySymbol}}{{this.service_cost}}</td>
                     </tr>
                 {{/each}}
                 </tbody>
                 <tfoot>
                     <tr>
-                     <td colspan="2" class="custom-footer">TOTAL</td><td class="custom-footer" style="text-align:right;">{{currencySymbol}}{{total}}</td>
+                     <td colspan="3" class="custom-footer">TOTAL</td><td class="custom-footer" style="text-align:right;">{{currencySymbol}}{{total}}</td>
                     </tr>
                 </tfoot>
             </table>

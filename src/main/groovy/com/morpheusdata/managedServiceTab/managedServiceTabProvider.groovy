@@ -31,8 +31,6 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 	ManagedServiceTabProvider(Plugin plugin, MorpheusContext context) {
 		this.plugin = plugin
 		this.morpheus = context
-
-		log.info("firing")
 	}
 
 	@Override
