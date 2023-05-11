@@ -22,6 +22,18 @@ class ManagedServiceTabPluginController implements PluginController {
 	String code = "managed-services-tab-controller"
 	String name = "Managed Services Controller"
 
+    // this a temp solution, we will provide these from the plugin config
+    // we can't use the Morpheus plugin api's connection currently because it
+    // only supports read queries
+    // with this approach we can choose to use the morpheus db are a separate
+    // database for custom tables, which might be a better idea!
+    // if we use the morpheus db, let's at least create a separate user with
+    // delete only privs on the table `custom_managed_services_plugin
+	String dbUser = "deleter"
+	String dbPassword = "aPassword"
+	String dbHostPort = "localhost:3306"
+	String dbName = "morpheus"
+
 	ManagedServiceTabPluginController(Plugin plugin, MorpheusContext context){
 	    this.plugin = plugin
 	    this.morpheus = context
@@ -52,23 +64,35 @@ class ManagedServiceTabPluginController implements PluginController {
             if (cookieName == "morpheus-managed-service-nonce") {
                 if (cookieValue == queryVars["nonce"]) {
                     // valid request, proceed
-                    println("we are here")
                     valid = true
                 }
             }
         }
 
         if (valid) {
-            // process the deletion
+           // process the deletion
+           Sql conn
+           String sql
 
-           /* try {
-                  dbConnection = morpheus.report.getReadOnlyDatabaseConnection().blockingGet()
-                  results = new Sql(dbConnection).rows("DELETE FROM custom_managed_services_plugin;")
-            } finally {
-                  morpheus.report.releaseDatabaseConnection(dbConnection)
-            }*/
+           // create a string of the id list to delete
+           String ids = ""
+           queryVars.each{
+                if (it.key != "nonce") {
+                    ids += it.value + ","
+                }
+           }
 
-            res.status="200"
+           ids = ids.substring(0, ids.length() - 1); //remove trailing ,
+
+           try {
+                conn = Sql.newInstance("jdbc:mysql://$dbHostPort/$dbName", dbUser, dbPassword, 'com.mysql.jdbc.Driver')
+                sql = "DELETE FROM custom_managed_services_plugin where id IN (" + ids + ");"
+                conn.execute sql
+           } finally {
+                conn.close()
+           }
+
+           res.status="200"
         }
 
         return JsonResponse.of(res)
