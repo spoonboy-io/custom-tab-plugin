@@ -32,8 +32,14 @@ class ManagedServiceTabPluginController implements PluginController {
 
     def deleteManagedService(ViewModel<Map> model) {
         def res = [:]
-        res.test="test"
-        res.test2="test"
+        Boolean success = false
+        res.status = "500"
+
+        success = true //
+
+        if (success) {
+             res.status="200"
+        }
         return JsonResponse.of(res)
     }
 }

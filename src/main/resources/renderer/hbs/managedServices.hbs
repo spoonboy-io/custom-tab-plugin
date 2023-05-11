@@ -9,12 +9,75 @@
     }
 
     function deleteConfirmed(){
+        const controller = location.hostname + '/plugin/managed-services/delete';
+        const nonce = "{{nonce}}";
+
+        // capture nonce and save to cookie
+        document.cookie = "morpheus-managed-service-nonce={{nonce}}";
+
         // gather the selected ids
-        // get current page for redirection
-        // session the nonce
-        // make request body (include ids, nonce, and redirect page
-        // use fetch api to custom end point
-        alert("I haz deleted!!");
+        let deleteList = [];
+        const services = document.getElementsByClassName("managed-service-select");
+        for (let i = 0; i < services.length; i++) {
+            if (services[i].checked) {
+                deleteList.push(services[i].getAttribute("data-id"))
+            }
+        }
+
+        // we only have GET contoller support?
+        // can't send a request body with GET using JS fetch api
+        // so we will serialise and append as querystring
+        const data = {
+            nonce: nonce,
+            deleteList: deleteList
+        }
+
+        const qs = makeQueryString(data);
+        const uri = "https://" + controller + "?" + qs
+        const badResponse = "There was a problem deleting";
+        getRequest(uri).
+            then((res) => {
+                console.log(res);
+                if (res.status = "200") {
+                    // we will delete all the rows in the DOM
+                    deleteList.forEach((id)=>{
+                        document.getElementById("result-"+ id).remove();
+                    })
+                } else {
+                    alert(badResponse)
+                }
+            }).
+            catch((err) => {
+                alert(badResponse + ": " + err);
+            }
+        );
+    }
+
+    async function getRequest(uri = "") {
+        const response = await fetch(uri, {
+                method: "GET",
+                mode: "cors",
+                cache: "no-cache",
+                credentials: "same-origin", // cookie auth?
+                headers: {"Content-Type": "application/json"},
+                redirect: "follow",
+                referrerPolicy: "no-referrer",
+            });
+        return response.json();
+    }
+
+    function makeQueryString(obj, prefix) {
+        let str = [], p;
+        for (p in obj) {
+            if (obj.hasOwnProperty(p)) {
+                let k = prefix ? prefix + "[" + p + "]" : p,
+                        v = obj[p];
+                str.push((v !== null && typeof v === "object") ?
+                        makeQueryString(v, k) :
+                        encodeURIComponent(k) + "=" + encodeURIComponent(v));
+            }
+        }
+        return str.join("&");
     }
 
     // wait for load
@@ -119,12 +182,12 @@
                 <tbody>
                 <!-- how to include the currency symbol within the each -->
                 {{#each results}}
-                    <tr>
+                    <tr id="result-{{this.id}}">
                         <td>
                             <div class="select-block">
                                 <div class="checkbox-container">
                                     <label>
-                                        <input type="hidden" name="_instanceMultiselect"><input type="checkbox" name="instanceMultiselect" class="instance-multiselect" data-id="3" data-status="running" data-hasservices="" tabindex="4" data-owners="1" id="instanceMultiselect"> <span class="custom"></span>
+                                        <input type="hidden" name="_instanceMultiselect"><input type="checkbox" name="instanceMultiselect" class="instance-multiselect managed-service-select" data-id="{{this.id}}" data-status="running" data-hasservices="" tabindex="4" data-owners="1" id="instanceMultiselect"> <span class="custom"></span>
                                     </label>
                                 </div>
                             </div>
