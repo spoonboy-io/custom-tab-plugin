@@ -13,7 +13,7 @@
         const nonce = "{{nonce}}";
 
         // capture nonce and save to cookie
-        document.cookie = "morpheus-managed-service-nonce={{nonce}}";
+        document.cookie = "morpheus-managed-service-nonce={{nonce}}; path=/";
 
         // gather the selected ids
         let deleteList = [];
@@ -38,7 +38,7 @@
         getRequest(uri).
             then((res) => {
                 console.log(res);
-                if (res.status = "200") {
+                if (res.status == "200") {
                     // we will delete all the rows in the DOM
                     deleteList.forEach((id)=>{
                         document.getElementById("result-"+ id).remove();

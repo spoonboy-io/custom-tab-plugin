@@ -7,6 +7,8 @@ import com.morpheusdata.core.MorpheusContext
 import com.morpheusdata.model.Permission
 import com.morpheusdata.views.ViewModel
 import com.morpheusdata.views.JsonResponse
+import groovy.sql.Sql
+import java.sql.Connection
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import groovy.util.logging.Slf4j
@@ -46,9 +48,11 @@ class ManagedServiceTabPluginController implements PluginController {
         for (cookie in cookies) {
             String cookieName = cookie.getName()
             String cookieValue = cookie.getValue()
+
             if (cookieName == "morpheus-managed-service-nonce") {
-                if (cookieValue == query["nonce"]) {
+                if (cookieValue == queryVars["nonce"]) {
                     // valid request, proceed
+                    println("we are here")
                     valid = true
                 }
             }
@@ -57,6 +61,12 @@ class ManagedServiceTabPluginController implements PluginController {
         if (valid) {
             // process the deletion
 
+           /* try {
+                  dbConnection = morpheus.report.getReadOnlyDatabaseConnection().blockingGet()
+                  results = new Sql(dbConnection).rows("DELETE FROM custom_managed_services_plugin;")
+            } finally {
+                  morpheus.report.releaseDatabaseConnection(dbConnection)
+            }*/
 
             res.status="200"
         }
