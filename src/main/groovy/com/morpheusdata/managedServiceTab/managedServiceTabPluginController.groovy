@@ -56,7 +56,7 @@ class ManagedServiceTabPluginController implements PluginController {
                 [it.key, it.value.length > 1 ? it.value : it.value[0]]
         }
 
-        // check the nonce
+        // check the nonce, we have it passed in the req and we check the session cookie
         for (cookie in cookies) {
             String cookieName = cookie.getName()
             String cookieValue = cookie.getValue()
