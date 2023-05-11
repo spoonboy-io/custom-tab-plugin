@@ -19,7 +19,7 @@ This code demonstrates techniques, which are not guaranteed to be the best appro
 * Render data from a custom table in the tab
 * Replicate Morpheus UI HTML controls & style on the tab
 * Implement a controller to handle delete requests, controller has code to parse the querystring since only GET is supported
-* Make writes to the database (better a different database) via a new connection (plugin-core offers read only)
+* Make writes to the database (better a different database) via a new connection (plugin framework offers read only)
 * Implements JavaScript code in the view to send data to the controller
 * Is secure AFAIK. Uses role permissions, and also checks nonce for replay
 
