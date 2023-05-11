@@ -14,6 +14,7 @@ import groovy.util.logging.Slf4j
 @Slf4j
 class ManagedServiceTabPluginController implements PluginController {
     // we can set these via the constructor or directly instead of overriding getters
+
     Plugin plugin
 	MorpheusContext morpheus
 	String code = "managed-services-tab-controller"
@@ -30,16 +31,36 @@ class ManagedServiceTabPluginController implements PluginController {
         ]
     }
 
-    def deleteManagedService(ViewModel<Map> model) {
+    def deleteManagedService(ViewModel<Map> model ) {
         def res = [:]
-        Boolean success = false
+        Boolean valid = false
         res.status = "500"
 
-        success = true //
-
-        if (success) {
-             res.status="200"
+        // get some request data
+        List cookies = model.request.getCookies()
+        HashMap queryVars = model.request.getParameterMap().collectEntries {
+                [it.key, it.value.length > 1 ? it.value : it.value[0]]
         }
+
+        // check the nonce
+        for (cookie in cookies) {
+            String cookieName = cookie.getName()
+            String cookieValue = cookie.getValue()
+            if (cookieName == "morpheus-managed-service-nonce") {
+                if (cookieValue == query["nonce"]) {
+                    // valid request, proceed
+                    valid = true
+                }
+            }
+        }
+
+        if (valid) {
+            // process the deletion
+
+
+            res.status="200"
+        }
+
         return JsonResponse.of(res)
     }
 }
