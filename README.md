@@ -9,6 +9,8 @@ services associated with each Instance. Data is created and inserted via a
 workflow (not provided) but can be viewed (and deleted) from an
 Instance's custom tab.
 
+<img width="1240" alt="image" src="https://github.com/spoonboy-io/custom-tab-plugin/assets/7113347/c31e07b1-2149-45e2-84e2-5d228ebd73dc">
+
 ### Getting started
 
 There are database migration files provided to create a custom table and seed that table with dummy data.
