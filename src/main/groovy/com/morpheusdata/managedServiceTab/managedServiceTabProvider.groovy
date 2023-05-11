@@ -64,7 +64,7 @@ class ManagedServiceTabProvider extends AbstractInstanceTabProvider {
 
 		try {
         	dbConnection = morpheus.report.getReadOnlyDatabaseConnection().blockingGet()
-        	results = new Sql(dbConnection).rows("SELECT * FROM custom_managed_services where instance_name = ${instance.name};")
+        	results = new Sql(dbConnection).rows("SELECT * FROM custom_managed_services_plugin where instance_name = ${instance.name};")
         } finally {
         	morpheus.report.releaseDatabaseConnection(dbConnection)
         }

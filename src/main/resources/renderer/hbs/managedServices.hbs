@@ -113,7 +113,7 @@
                             <label class="visible-sm">Select All</label>
                         </div>
                     </th>
-                    <th class="custom-heading" style="width:10%">ID</th><th class="custom-heading" style="width:75%">NAME/DESCRIPTION</th><th class="custom-heading" style="width:10%;text-align:right;">COST</th>
+                    <th class="custom-heading" style="width:25%">NAME</th><th class="custom-heading" style="width:60%">DESCRIPTION</th><th class="custom-heading" style="width:10%;text-align:right;">COST</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -129,7 +129,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td>{{this.id}}</td><td>{{this.service_name}}</td><td style="text-align:right;">{{../currencySymbol}}{{this.service_cost}}</td>
+                        <td>{{this.service_name}}</td><td>{{this.service_description}}</td><td style="text-align:right;">{{../currencySymbol}}{{this.service_cost}}</td>
                     </tr>
                 {{/each}}
                 </tbody>
