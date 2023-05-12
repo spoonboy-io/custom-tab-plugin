@@ -26,9 +26,9 @@ This code demonstrates techniques, which are not guaranteed to be the best appro
 ### Getting started
 
 There are database migration files provided to create a custom table and seed that table with dummy data.
-Follow these steps to load the data to your Morpheus appliance database.
+Follow these steps to load the data to your Morpheus appliance database (or external database).
 
-Create database table Morpheus.
+Create database table.
 
 ```
 mysql -h hostname -u morpheus morpheus < /path/to/migrations/create_managed_service_plugin_table.sql
@@ -42,6 +42,10 @@ mysql -h hostname -u morpheus morpheus < path/to/migrations/seed_managed_service
 **NOTE**: Dummy data is available for an instance with name `DummyTechService-01`. 
 Instances with other names will show the tab, but report no managed services. 
 Create an instance with the above name, to show the dummy data.
+
+### Database user
+This plugin uses a separate database connection for the purpose of deleting data from the custom table.
+Currently there are no configuration options in the plugin to set this data. For now, amend the [connection details for the user here](https://github.com/spoonboy-io/custom-tab-plugin/blob/main/src/main/groovy/com/morpheusdata/managedServiceTab/managedServiceTabPluginController.groovy#L32), before building the plugin, or create the user with these credentials. Configuration options to enable this data to be maintained in Morpheus will follow.
 
 ### Build the plugin
 
