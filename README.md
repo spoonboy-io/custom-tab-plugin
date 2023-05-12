@@ -9,7 +9,7 @@ services associated with each Instance. Data is created and inserted via a
 workflow (not provided) but can be viewed (and deleted) from an
 Instance's custom tab.
 
-<img width="1240" alt="image" src="https://github.com/spoonboy-io/custom-tab-plugin/assets/7113347/c31e07b1-2149-45e2-84e2-5d228ebd73dc">
+<img width="1240" alt="view" src="https://github.com/spoonboy-io/custom-tab-plugin/assets/7113347/c31e07b1-2149-45e2-84e2-5d228ebd73dc">
 
 ### For learning
 
@@ -48,6 +48,8 @@ Create an instance with the above name, to show the dummy data.
 This plugin uses a separate database connection for the purpose of deleting data from the custom table since only read
 operations are supported in the plugin framework. Configuration options to enable this data to be maintained in Morpheus
 are on the plugin settings page when installed.
+
+<img width="1240" alt="settings" src="https://github.com/spoonboy-io/custom-tab-plugin/assets/7113347/ea48f3b3-e8d4-4ceb-afd1-ee2769ae2e96">
 
 ### Build the plugin
 
