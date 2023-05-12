@@ -18,6 +18,7 @@ This code demonstrates techniques, which are not guaranteed to be the best appro
 * Create a custom instance tab using the tab provider
 * Render data from a custom table in the tab
 * Replicate Morpheus UI HTML controls & style on the tab
+* Create plugin settings and usage within the plugin business logic
 * Implement a controller to handle delete requests, controller has code to parse the querystring since only GET is supported
 * Make writes to the database (better a different database) via a new connection (plugin framework offers read only)
 * Implements JavaScript code in the view to send data to the controller
@@ -44,8 +45,9 @@ Instances with other names will show the tab, but report no managed services.
 Create an instance with the above name, to show the dummy data.
 
 ### Database user
-This plugin uses a separate database connection for the purpose of deleting data from the custom table.
-Currently there are no configuration options in the plugin to set this data. For now, amend the [connection details for the user here](https://github.com/spoonboy-io/custom-tab-plugin/blob/main/src/main/groovy/com/morpheusdata/managedServiceTab/managedServiceTabPluginController.groovy#L32), before building the plugin, or create the user with these credentials. Configuration options to enable this data to be maintained in Morpheus will follow.
+This plugin uses a separate database connection for the purpose of deleting data from the custom table since only read
+operations are supported in the plugin framework. Configuration options to enable this data to be maintained in Morpheus
+are on the plugin settings page when installed.
 
 ### Build the plugin
 
@@ -78,5 +80,4 @@ Plugin builds are tested/performed with Java v16
 
 ### Todo/Ideas
 * Provisioning Workflow to attach services to an Instance
-* The config for the additional database connection needs to go in the plugin settings
 * Amend controller response so as to include new metrics to update the stats after deleting (count, total cost, avg cost, max cost), and update the DOM in JS
