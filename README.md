@@ -65,7 +65,7 @@ Log out/in to Morpheus to see the tab on existing instances.
 
 ### Create a release
 
-!Note this is work-in-progess!
+!Note this is work-in-progress!
 
 Releases can be automatically created on Github by pushing a version tag
 in the format `vx.x.x`.
