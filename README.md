@@ -24,6 +24,8 @@ This code demonstrates techniques, which are not guaranteed to be the best appro
 * Implements JavaScript code in the view to send data to the controller
 * Is secure AFAIK. Uses role permissions, and also checks nonce for replay
 
+There is an explainer Morpheus Minutes video which talks through the Plugin Framwork and this plugin and codebase [to be found here](https://youtu.be/59qWW9dYHtY).
+
 ### Getting started
 
 There are database migration files provided to create a custom table and seed that table with dummy data.
@@ -79,6 +81,7 @@ To this end there is a `Makefile` with a `release` command to assist with this.
 The plugin has been configured and tested with Morpheus v.6.1.0.
 
 Plugin builds are tested/performed with Java v16.
+
 
 ### Todo/Ideas
 * Provisioning Workflow to attach services to an Instance
